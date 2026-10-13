@@ -1,0 +1,312 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const filePath = path.resolve('src/pages/Catálogo Biblioteca Vagabunda - Disponibles.csv');
+const fileContent = fs.readFileSync(filePath, 'utf-8');
+const lines = fileContent.split('\n').filter(Boolean);
+
+const libros = lines.slice(1).map(line => {
+  const values = line.split(',');
+  const codigo = values[0] ? values[0].trim() : '';
+  const estadoTexto = values[8] ? values[8].trim() : 'Disponible';
+  
+  return {
+    codigo: codigo,
+    isbn: values[1] ? values[1].trim() : '',
+    titulo: values[2] ? values[2].trim() : '',
+    autorx: values[3] ? values[3].trim() : '',
+    anio: values[4] ? values[4].trim() : '',
+    editorial: values[5] ? values[5].trim() : '',
+    lugar: values[6] ? values[6].trim() : '',
+    tipo: values[7] ? values[7].trim() : 'Libro',
+    estado: estadoTexto,
+    esPrestado: estadoTexto.toLowerCase().includes('prestamo') || estadoTexto.toLowerCase().includes('préstamo'),
+    foto: `/portadas/${codigo}.png`
+  };
+});
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>La Biblioteca Vagabunda | Catálogo</title>
+    <style>
+      :root {
+        --bg-color: #fcfbfa;
+        --card-bg: #ffffff;
+        --text-main: #2c2c2c;
+        --text-muted: #666666;
+        --accent: #e67e22;
+        --border: #f0ede6;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        margin: 0;
+        padding: 2.5rem 1.5rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Encabezado con Logo */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        text-align: center;
+      }
+
+      .logo {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        border: 2px solid #fff;
+      }
+
+      .header-text h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: #1a1a1a;
+        letter-spacing: -0.5px;
+      }
+
+      .header-text p {
+        margin: 0.3rem 0 0 0;
+        color: var(--text-muted);
+        font-size: 1.05rem;
+      }
+
+      /* Barra de búsqueda y filtros */
+      .controles {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        border: 1px solid var(--border);
+      }
+
+      .buscador {
+        flex: 1;
+        min-width: 240px;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border 0.2s;
+      }
+
+      .buscador:focus {
+        border-color: #2c2c2c;
+      }
+
+      .filtros {
+        display: flex;
+        gap: 0.6rem;
+      }
+
+      .btn-filtro {
+        background: #f7f5f0;
+        border: 1px solid #e2ddd5;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 500;
+        color: #444;
+      }
+
+      .btn-filtro:hover, .btn-filtro.activo {
+        background: #2c2c2c;
+        color: white;
+        border-color: #2c2c2c;
+      }
+
+      /* Cuadrícula de libros */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 2rem;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      }
+
+      .card img {
+        width: 100%;
+        height: 290px;
+        object-fit: cover;
+        background: #f4f1ea;
+      }
+
+      .card-content {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .tags {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.6rem;
+      }
+
+      .badge-tipo {
+        font-size: 0.7rem;
+        background: #e67e22;
+        color: white;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .badge-estado {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 10px;
+        font-weight: bold;
+      }
+      .badge-estado.disponible { background: #e8f8f5; color: #27ae60; border: 1px solid #a3e4d7; }
+      .badge-estado.prestado { background: #fef9e7; color: #d35400; border: 1px solid #f9e79f; }
+
+      .card h2 {
+        font-size: 1.05rem;
+        margin: 0 0 0.3rem 0;
+        color: #1a1a1a;
+        line-height: 1.3;
+      }
+
+      .autor {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 0 0 1rem 0;
+      }
+
+      .meta {
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: auto;
+        border-top: 1px solid var(--border);
+        padding-top: 0.6rem;
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <!-- Reemplaza 'logo.png' con el nombre de tu archivo de logo en la carpeta public -->
+        <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
+        <div class="header-text">
+          <h1>La Biblioteca Vagabunda</h1>
+          <p>Lecturas LGBT+ en movimiento 🚚📚</p>
+        </div>
+      </header>
+
+      <div class="controles">
+        <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por título, autorx..." onkeyup="buscarLibros()" />
+        <div class="filtros">
+          <button class="btn-filtro activo" onclick="filtrar('todos', event)">Todos</button>
+          <button class="btn-filtro" onclick="filtrar('disponible', event)">🟢 Disponibles</button>
+          <button class="btn-filtro" onclick="filtrar('prestado', event)">🟠 En préstamo</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid-libros">
+        {libros.map((libro) => (
+          <div class="card" data-estado={libro.esPrestado ? 'prestado' : 'disponible'} data-titulo={libro.titulo.toLowerCase()} data-autor={libro.autorx.toLowerCase()}>
+            <img src={libro.foto} alt={libro.titulo} onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'280\'><rect width=\'100%\' height=\'100%\' fill=\'%23f4f1ea\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23888\' font-size=\'14\' font-family=\'sans-serif\'>Imagen en espera</text></svg>';" />
+            <div class="card-content">
+              <div class="tags">
+                <span class="badge-tipo">{libro.tipo}</span>
+                <span class={`badge-estado ${libro.esPrestado ? 'prestado' : 'disponible'}`}>
+                  {libro.esPrestado ? 'En préstamo' : 'Disponible'}
+                </span>
+              </div>
+              <h2>{libro.titulo}</h2>
+              <p class="autor">{libro.autorx}</p>
+              <div class="meta">
+                <span>{libro.editorial}</span>
+                <span>{libro.anio}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <script>
+      let filtroActual = 'todos';
+
+      function filtrar(tipo, e) {
+        filtroActual = tipo;
+        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
+        e.target.classList.add('activo');
+        aplicarFiltros();
+      }
+
+      function buscarLibros() {
+        aplicarFiltros();
+      }
+
+      function aplicarFiltros() {
+        const texto = document.getElementById('buscador').value.toLowerCase();
+        const tarjetas = document.querySelectorAll('.card');
+
+        tarjetas.forEach(tarjeta => {
+          const estado = tarjeta.getAttribute('data-estado');
+          const titulo = tarjeta.getAttribute('data-titulo');
+          const autor = tarjeta.getAttribute('data-autor');
+          
+          const coincideFiltro = (filtroActual === 'todos' || estado === filtroActual);
+          const coincideTexto = (titulo.includes(texto) || autor.includes(texto));
+
+          if (coincideFiltro && coincideTexto) {
+            tarjeta.style.display = 'flex';
+          } else {
+            tarjeta.style.display = 'none';
+          }
+        });
+      }
+
+      window.filtrar = filtrar;
+      window.buscarLibros = buscarLibros;
+    </script>
+  </body>
+</html>
