@@ -31,7 +31,7 @@ const libros = lines.slice(1).map(line => {
   <head>
     <meta charset="utf-8" />
     <title>La Biblioteca Vagabunda | Catálogo</title>
-   <style is:global>
+    <style is:global>
       :root {
         --bg-color: #fcfbfa;
         --card-bg: #ffffff;
@@ -42,13 +42,13 @@ const libros = lines.slice(1).map(line => {
       }
 
       body {
-            background-color: #f8f9fa;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('/vagabundeo.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
+        background-color: #f8f9fa;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('/vagabundeo.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
 
       .container {
         max-width: 1200px;
@@ -227,18 +227,11 @@ const libros = lines.slice(1).map(line => {
         display: flex;
         justify-content: space-between;
       }
-     body {
-  background-color: #f8f9fa;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('/vagabundeo.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+    </style>
+  </head>
   <body>
     <div class="container">
       <header>
-        <!-- Reemplaza 'logo.png' con el nombre de tu archivo de logo en la carpeta public -->
         <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
         <div class="header-text">
           <h1>La Biblioteca Vagabunda</h1>
