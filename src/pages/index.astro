@@ -252,3 +252,265 @@ const libros = lines.slice(1).map(line => {
         margin: 0;
         color: #1a1a1a;
       }
+
+      .info-card p {
+        font-size: 0.92rem;
+        color: var(--text-muted);
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* Estilos para la tarjeta interactiva y el Modal */
+      .info-card-clickable {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 2px solid #e0c3fc;
+      }
+
+      .info-card-clickable:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .ver-mas {
+        display: block;
+        font-size: 0.8rem;
+        color: #6b21a8;
+        font-weight: normal;
+        margin-top: 4px;
+      }
+
+      /* Modal Overlay */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        max-width: 650px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 2rem;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      }
+
+      .btn-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .modal-content h2 {
+        margin-top: 0;
+        color: #2d3748;
+        font-size: 1.4rem;
+      }
+
+      .modal-sub {
+        font-size: 0.9rem;
+        color: #4a5568;
+        border-bottom: 1px solid #edf2f7;
+        padding-bottom: 1rem;
+      }
+
+      .modal-body ol {
+        padding-left: 1.2rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #2d3748;
+      }
+
+      .modal-body li {
+        margin-bottom: 0.8rem;
+      }
+
+      .modal-footer-contact {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #edf2f7;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
+        <div class="header-text">
+          <h1>La Biblioteca Vagabunda</h1>
+          <p>Lecturas LGBT+ en movimiento 🚚📚</p>
+        </div>
+      </header>
+
+      <!-- Sección de 3 columnas informativas -->
+      <section class="info-grid">
+        <div class="info-card">
+          <h3>📖 Lectura libre y gratuita en sitio</h3>
+          <p>Llegamos a plazas públicas, parques y espacios educativos con nuestro carrito. Puedes acercarte, sentarte a hojear un libro o leer en el lugar sin costo alguno y sin prejuicios.</p>
+        </div>
+
+        <!-- Tarjeta del centro convertida en botón interactivo -->
+        <div class="info-card info-card-clickable" id="btnMembresia">
+          <h3>🏠 Membresía para llevar a casa <span class="ver-mas">🔍 Ver reglamento completo</span></h3>
+          <p>¿Quieres leer con más calma? Contamos con un sistema de membresías mensuales accesibles para solicitar préstamos a domicilio. <strong>Haz clic aquí para leer el reglamento.</strong></p>
+        </div>
+
+        <div class="info-card">
+          <h3>🎨 Activaciones comunitarias y talleres</h3>
+          <p>No solo prestamos libros: Realizamos talleres de creación literaria, sesiones de cuentacuentos drag, círculos de lectura y dinámicas para que compartas tu propia voz.</p>
+        </div>
+      </section>
+
+      <!-- Ventana emergente (Modal) con el Reglamento -->
+      <div id="modalMembresia" class="modal-overlay">
+        <div class="modal-content">
+          <button id="cerrarModal" class="btn-close">&times;</button>
+          <h2>🎀 Reglamento de Consulta y Membresías</h2>
+          <p class="modal-sub">Bienvenide a La Biblioteca Vagabunda. Gracias por formar parte de esta biblioteca. Con este reglamento buscamos cuidar las relaciones y sentires que se tejen por medio de los textos, así como la materialidad misma de estos.</p>
+          
+          <div class="modal-body">
+            <ol>
+              <li><strong>Registro de Usuaries:</strong> Para consultar el acervo o solicitar préstamos a domicilio, es obligatorio llenar el Formulario de Registro. Tus datos se tratarán con estricta confidencialidad.</li>
+              <li><strong>Modalidad Presencial:</strong> En nuestros bazares y eventos presenciales, cualquier persona puede consultar los materiales que contiene el archivo de manera totalmente gratuita.</li>
+              <li><strong>Membresías Mensuales:</strong> Para llevarte libros a casa debes contar con una membresía activa:
+                <ul>
+                  <li><strong>Básica:</strong> $150 MXN mensuales + $200 MXN de depósito en garantía.</li>
+                  <li><strong>Estudiante:</strong> $100 MXN mensuales + $200 MXN de depósito en garantía (requiere credencial vigente).</li>
+                </ul>
+              </li>
+              <li><strong>Formalización:</strong> Para activar tu membresía debes llenar el formulario y enviar al correo <code>la.biblio.vagabunda@gmail.com</code> tu comprobante de pago (mes + depósito) y una copia de tu identificación oficial (y escolar, si aplica).</li>
+              <li><strong>Depósito en Garantía:</strong> El depósito de $200 MXN se paga una sola vez al inicio. Se reembolsará íntegramente en un plazo de 3 a 5 días hábiles tras devolver el/los libro(s) y solicitar tu baja, siempre que no existan adeudos o daños.</li>
+              <li><strong>Límite de Libros:</strong> Cada membresía permite llevarse hasta 2 libros a la vez.</li>
+              <li><strong>Duración del Préstamo:</strong> Los préstamos duran 2 semanas (14 días naturales) a partir de la fecha acordada de entrega.</li>
+              <li><strong>Puntos de recolección:</strong>
+                <ul>
+                  <li><strong>Estaciones del Metro:</strong> Entregas y devoluciones presenciales en estaciones acordadas (ej. Nativitas, Pino Suárez, Revolución, etc.).</li>
+                  <li><strong>Espacios aliados:</strong> Puntos físicos aliados para recoger y devolver los materiales.</li>
+                  <li><strong>Eventos presenciales:</strong> Durante los eventos programados al menos una vez al mes.</li>
+                </ul>
+              </li>
+              <li><strong>Renovaciones:</strong> Tienes derecho a 1 renovación por 2 semanas más, siempre y cuando el libro no haya sido solicitado por alguien más. Debes pedir la renovación por correo al menos 3 días antes del vencimiento.</li>
+              <li><strong>Retrasos y Sanciones:</strong> En caso de no devolver el libro a tiempo, se cobrará una multa de $15 MXN por cada día de retraso. En caso de una emergencia, ponte en contacto antes de la fecha límite.</li>
+              <li><strong>Cuidado del Material:</strong> Es obligación de le usuarie cuidar el libro. Se considera daño grave: hojas rayadas, mojadas, deshojadas, mordeduras de mascotas o portadas rotas.</li>
+              <li><strong>Pérdida y reposición:</strong> En caso de extravío o daño grave, deberás reponer el ejemplar por uno igual o, si no está disponible, por un libro similar previamente acordado.</li>
+            </ol>
+            <div class="modal-footer-contact">
+              <p>¿Dudas o comentarios? Escríbenos a: <strong>la.biblio.vagabunda@gmail.com</strong></p>
+              <p><em>¡Gracias por hacer mover la cultura LGBT+! 🚚📚✨</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controles">
+        <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por título, autorx..." onkeyup="buscarLibros()" />
+        <div class="filtros">
+          <button class="btn-filtro activo" onclick="filtrar('todos', event)">Todos</button>
+          <button class="btn-filtro" onclick="filtrar('disponible', event)">🟢 Disponibles</button>
+          <button class="btn-filtro" onclick="filtrar('prestado', event)">🟠 En préstamo</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid-libros">
+        {libros.map((libro) => (
+          <div class="card" data-estado={libro.esPrestado ? 'prestado' : 'disponible'} data-titulo={libro.titulo.toLowerCase()} data-autor={libro.autorx.toLowerCase()}>
+            <img src={libro.foto} alt={libro.titulo} onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'280\'><rect width=\'100%\' height=\'100%\' fill=\'%23f4f1ea\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23888\' font-size=\'14\' font-family=\'sans-serif\'>Imagen en espera</text></svg>';" />
+            <div class="card-content">
+              <div class="tags">
+                <span class="badge-tipo">{libro.tipo}</span>
+                <span class={`badge-estado ${libro.esPrestado ? 'prestado' : 'disponible'}`}>
+                  {libro.esPrestado ? 'En préstamo' : 'Disponible'}
+                </span>
+              </div>
+              <h2>{libro.titulo}</h2>
+              <p class="autor">{libro.autorx}</p>
+              <div class="meta">
+                <span>{libro.editorial}</span>
+                <span>{libro.anio}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <script>
+      let filtroActual = 'todos';
+
+      function filtrar(tipo, e) {
+        filtroActual = tipo;
+        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
+        e.target.classList.add('activo');
+        aplicarFiltros();
+      }
+
+      function buscarLibros() {
+        aplicarFiltros();
+      }
+
+      function aplicarFiltros() {
+        const texto = document.getElementById('buscador').value.toLowerCase();
+        const tarjetas = document.querySelectorAll('.card');
+
+        tarjetas.forEach(tarjeta => {
+          const estado = tarjeta.getAttribute('data-estado');
+          const titulo = tarjeta.getAttribute('data-titulo');
+          const autor = tarjeta.getAttribute('data-autor');
+          
+          const coincideFiltro = (filtroActual === 'todos' || estado === filtroActual);
+          const coincideTexto = (titulo.includes(texto) || autor.includes(texto));
+
+          if (coincideFiltro && coincideTexto) {
+            tarjeta.style.display = 'flex';
+          } else {
+            tarjeta.style.display = 'none';
+          }
+        });
+      }
+
+      // Lógica para abrir y cerrar el modal del reglamento
+      const btnMembresia = document.getElementById('btnMembresia');
+      const modalMembresia = document.getElementById('modalMembresia');
+      const cerrarModal = document.getElementById('cerrarModal');
+
+      if (btnMembresia && modalMembresia && cerrarModal) {
+        btnMembresia.addEventListener('click', () => {
+          modalMembresia.style.display = 'flex';
+        });
+
+        cerrarModal.addEventListener('click', () => {
+          modalMembresia.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === modalMembresia) {
+            modalMembresia.style.display = 'none';
+          }
+        });
+      }
+
+      window.filtrar = filtrar;
+      window.buscarLibros = buscarLibros;
+    </script>
+  </body>
+</html>
