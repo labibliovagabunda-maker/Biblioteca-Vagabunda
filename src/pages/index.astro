@@ -227,6 +227,7 @@ const libros = lines.slice(1).map(line => {
         display: flex;
         justify-content: space-between;
       }
+
       /* Estilos para la sección de 3 columnas */
       .info-grid {
         display: grid;
@@ -251,109 +252,3 @@ const libros = lines.slice(1).map(line => {
         margin: 0;
         color: #1a1a1a;
       }
-
-      .info-card p {
-        font-size: 0.92rem;
-        color: var(--text-muted);
-        margin: 0;
-        line-height: 1.4;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
-        <div class="header-text">
-          <h1>La Biblioteca Vagabunda</h1>
-          <p>Lecturas LGBT+ en movimiento 🚚📚</p>
-        </div>
-      </header>
-
-      <!-- Sección de 3 columnas informativas -->
-      <section class="info-grid">
-        <div class="info-card">
-          <h3>📖 Lectura libre y gratuita en sitio</h3>
-          <p>Llegamos a plazas públicas, parques y espacios educativos con nuestro carrito. Puedes acercarte, sentarte a hojear un libro o leer en el lugar sin costo alguno y sin prejuicios.</p>
-        </div>
-        <div class="info-card">
-          <h3>🏠 Membresía para llevar a casa</h3>
-          <p>¿Quieres leer con más calma? Contamos con un sistema de membresías mensualmente accesibles para que solicites préstamos a domicilio y disfrutes tus lecturas donde quieras.</p>
-        </div>
-        <div class="info-card">
-          <h3>🎨 Activaciones comunitarias y talleres</h3>
-          <p>No solo prestamos libros: Realizamos talleres de creación literaria, sesiones de cuentacuentos drag, círculos de lectura y dinámicas para que compartas tu propia voz.</p>
-        </div>
-      </section>
-
-      <div class="controles">
-        <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por título, autorx..." onkeyup="buscarLibros()" />
-        <div class="filtros">
-          <button class="btn-filtro activo" onclick="filtrar('todos', event)">Todos</button>
-          <button class="btn-filtro" onclick="filtrar('disponible', event)">🟢 Disponibles</button>
-          <button class="btn-filtro" onclick="filtrar('prestado', event)">🟠 En préstamo</button>
-        </div>
-      </div>
-
-      <div class="grid" id="grid-libros">
-        {libros.map((libro) => (
-          <div class="card" data-estado={libro.esPrestado ? 'prestado' : 'disponible'} data-titulo={libro.titulo.toLowerCase()} data-autor={libro.autorx.toLowerCase()}>
-            <img src={libro.foto} alt={libro.titulo} onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'280\'><rect width=\'100%\' height=\'100%\' fill=\'%23f4f1ea\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23888\' font-size=\'14\' font-family=\'sans-serif\'>Imagen en espera</text></svg>';" />
-            <div class="card-content">
-              <div class="tags">
-                <span class="badge-tipo">{libro.tipo}</span>
-                <span class={`badge-estado ${libro.esPrestado ? 'prestado' : 'disponible'}`}>
-                  {libro.esPrestado ? 'En préstamo' : 'Disponible'}
-                </span>
-              </div>
-              <h2>{libro.titulo}</h2>
-              <p class="autor">{libro.autorx}</p>
-              <div class="meta">
-                <span>{libro.editorial}</span>
-                <span>{libro.anio}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <script>
-      let filtroActual = 'todos';
-
-      function filtrar(tipo, e) {
-        filtroActual = tipo;
-        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
-        e.target.classList.add('activo');
-        aplicarFiltros();
-      }
-
-      function buscarLibros() {
-        aplicarFiltros();
-      }
-
-      function aplicarFiltros() {
-        const texto = document.getElementById('buscador').value.toLowerCase();
-        const tarjetas = document.querySelectorAll('.card');
-
-        tarjetas.forEach(tarjeta => {
-          const estado = tarjeta.getAttribute('data-estado');
-          const titulo = tarjeta.getAttribute('data-titulo');
-          const autor = tarjeta.getAttribute('data-autor');
-          
-          const coincideFiltro = (filtroActual === 'todos' || estado === filtroActual);
-          const coincideTexto = (titulo.includes(texto) || autor.includes(texto));
-
-          if (coincideFiltro && coincideTexto) {
-            tarjeta.style.display = 'flex';
-          } else {
-            tarjeta.style.display = 'none';
-          }
-        });
-      }
-
-      window.filtrar = filtrar;
-      window.buscarLibros = buscarLibros;
-    </script>
-  </body>
-</html>
