@@ -227,6 +227,37 @@ const libros = lines.slice(1).map(line => {
         display: flex;
         justify-content: space-between;
       }
+      /* Estilos para la sección de 3 columnas */
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .info-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .info-card h3 {
+        font-size: 1.1rem;
+        margin: 0;
+        color: #1a1a1a;
+      }
+
+      .info-card p {
+        font-size: 0.92rem;
+        color: var(--text-muted);
+        margin: 0;
+        line-height: 1.4;
+      }
     </style>
   </head>
   <body>
@@ -238,6 +269,22 @@ const libros = lines.slice(1).map(line => {
           <p>Lecturas LGBT+ en movimiento 🚚📚</p>
         </div>
       </header>
+
+      <!-- Sección de 3 columnas informativas -->
+      <section class="info-grid">
+        <div class="info-card">
+          <h3>📖 Lectura libre y gratuita en sitio</h3>
+          <p>Llegamos a plazas públicas, parques y espacios educativos con nuestro carrito. Puedes acercarte, sentarte a hojear un libro o leer en el lugar sin costo alguno y sin prejuicios.</p>
+        </div>
+        <div class="info-card">
+          <h3>🏠 Membresía para llevar a casa</h3>
+          <p>¿Quieres leer con más calma? Contamos con un sistema de membresías mensualmente accesibles para que solicites préstamos a domicilio y disfrutes tus lecturas donde quieras.</p>
+        </div>
+        <div class="info-card">
+          <h3>🎨 Activaciones comunitarias y talleres</h3>
+          <p>No solo prestamos libros: Realizamos talleres de creación literaria, sesiones de cuentacuentos drag, círculos de lectura y dinámicas para que compartas tu propia voz.</p>
+        </div>
+      </section>
 
       <div class="controles">
         <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por título, autorx..." onkeyup="buscarLibros()" />
