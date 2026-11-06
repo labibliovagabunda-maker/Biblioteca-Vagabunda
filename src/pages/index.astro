@@ -21,7 +21,7 @@ const libros = lines.slice(1).map(line => {
     lugar: values[6] ? values[6].trim() : '',
     tipo: values[7] ? values[7].trim() : 'Libro',
     estado: estadoTexto,
-    esPrestado: estadoTexto.toLowerCase().includes('prestamo') || estadoTexto.toLowerCase().includes('préstamo'),
+    esPrestado: estadoTexto.toLowerCase().includes('prestamo') || estadoTexto.toLowerCase().includes('préstamo') || estadoTexto.toLowerCase().includes('prestado'),
     foto: `/portadas/${codigo}.png`
   };
 });
@@ -55,7 +55,6 @@ const libros = lines.slice(1).map(line => {
         margin: 0 auto;
       }
 
-      /* Encabezado original limpio */
       header {
         display: flex;
         align-items: center;
@@ -88,7 +87,6 @@ const libros = lines.slice(1).map(line => {
         font-size: 1.05rem;
       }
 
-      /* Botón flotante fijo en la esquina inferior derecha */
       .btn-flotante-registro {
         position: fixed;
         bottom: 2rem;
@@ -105,7 +103,7 @@ const libros = lines.slice(1).map(line => {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        z-index: 999; /* Siempre por encima de todo */
+        z-index: 999;
       }
 
       .btn-flotante-registro:hover {
@@ -113,7 +111,6 @@ const libros = lines.slice(1).map(line => {
         box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
       }
 
-      /* Barra de búsqueda y filtros */
       .controles {
         display: flex;
         justify-content: space-between;
@@ -166,7 +163,6 @@ const libros = lines.slice(1).map(line => {
         border-color: #2c2c2c;
       }
 
-      /* Cuadrícula de libros */
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -253,7 +249,6 @@ const libros = lines.slice(1).map(line => {
         justify-content: space-between;
       }
 
-      /* Estilos para la sección de 3 columnas */
       .info-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -285,7 +280,6 @@ const libros = lines.slice(1).map(line => {
         line-height: 1.4;
       }
 
-      /* Estilos para la tarjeta interactiva y el Modal */
       .info-card-clickable {
         cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -305,7 +299,6 @@ const libros = lines.slice(1).map(line => {
         margin-top: 4px;
       }
 
-      /* Modal Overlay */
       .modal-overlay {
         display: none;
         position: fixed;
@@ -387,19 +380,16 @@ const libros = lines.slice(1).map(line => {
         </div>
       </header>
 
-      {/* Botón flotante fijo en la esquina inferior derecha */}
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSckxAiF1LnoW7t8h9BongQfZ9AmCFB917gauxaj5jX3QGvUZg/viewform" target="_blank" class="btn-flotante-registro">
         📝 Registro a la biblioteca
       </a>
 
-      <!-- Sección de 3 columnas informativas -->
       <section class="info-grid">
         <div class="info-card">
           <h3>📖 Lectura libre y gratuita en sitio</h3>
           <p>Llegamos a plazas públicas, parques y espacios educativos con nuestro carrito. Puedes acercarte, sentarte a hojear un libro o leer en el lugar sin costo alguno y sin prejuicios.</p>
         </div>
 
-        <!-- Tarjeta del centro convertida en botón interactivo -->
         <div class="info-card info-card-clickable" id="btnMembresia">
           <h3>🏠 Membresía para llevar a casa <span class="ver-mas">🔍 Ver reglamento completo</span></h3>
           <p>¿Quieres leer con más calma? Contamos con un sistema de membresías mensuales accesibles para solicitar préstamos a domicilio. <strong>Haz clic aquí para leer el reglamento.</strong></p>
@@ -411,7 +401,6 @@ const libros = lines.slice(1).map(line => {
         </div>
       </section>
 
-      <!-- Ventana emergente (Modal) con el Reglamento -->
       <div id="modalMembresia" class="modal-overlay">
         <div class="modal-content">
           <button id="cerrarModal" class="btn-close">&times;</button>
@@ -468,79 +457,4 @@ const libros = lines.slice(1).map(line => {
             <div class="card-content">
               <div class="tags">
                 <span class="badge-tipo">{libro.tipo}</span>
-                <span class={`badge-estado ${libro.esPrestado ? 'prestado' : 'disponible'}`}>
-                  {libro.esPrestado ? 'En préstamo' : 'Disponible'}
-                </span>
-              </div>
-              <h2>{libro.titulo}</h2>
-              <p class="autor">{libro.autorx}</p>
-              <div class="meta">
-                <span>{libro.editorial}</span>
-                <span>{libro.anio}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <script>
-      let filtroActual = 'todos';
-
-      function filtrar(tipo, e) {
-        filtroActual = tipo;
-        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
-        e.target.classList.add('activo');
-        aplicarFiltros();
-      }
-
-      function buscarLibros() {
-        aplicarFiltros();
-      }
-
-      function aplicarFiltros() {
-        const texto = document.getElementById('buscador').value.toLowerCase();
-        const tarjetas = document.querySelectorAll('.card');
-
-        tarjetas.forEach(tarjeta => {
-          const estado = tarjeta.getAttribute('data-estado');
-          const titulo = tarjeta.getAttribute('data-titulo');
-          const autor = tarjeta.getAttribute('data-autor');
-          
-          const coincideFiltro = (filtroActual === 'todos' || estado === filtroActual);
-          const coincideTexto = (titulo.includes(texto) || autor.includes(texto));
-
-          if (coincideFiltro && coincideTexto) {
-            tarjeta.style.display = 'flex';
-          } else {
-            tarjeta.style.display = 'none';
-          }
-        });
-      }
-
-      // Lógica para abrir y cerrar el modal del reglamento
-      const btnMembresia = document.getElementById('btnMembresia');
-      const modalMembresia = document.getElementById('modalMembresia');
-      const cerrarModal = document.getElementById('cerrarModal');
-
-      if (btnMembresia && modalMembresia && cerrarModal) {
-        btnMembresia.addEventListener('click', () => {
-          modalMembresia.style.display = 'flex';
-        });
-
-        cerrarModal.addEventListener('click', () => {
-          modalMembresia.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-          if (e.target === modalMembresia) {
-            modalMembresia.style.display = 'none';
-          }
-        });
-      }
-
-      window.filtrar = filtrar;
-      window.buscarLibros = buscarLibros;
-    </script>
-  </body>
-</html>
+                <span class={`badge
