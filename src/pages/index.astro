@@ -457,4 +457,78 @@ const libros = lines.slice(1).map(line => {
             <div class="card-content">
               <div class="tags">
                 <span class="badge-tipo">{libro.tipo}</span>
-                <span class={`badge
+                <span class={`badge-estado ${libro.esPrestado ? 'prestado' : 'disponible'}`}>
+                  {libro.esPrestado ? 'En préstamo' : 'Disponible'}
+                </span>
+              </div>
+              <h2>{libro.titulo}</h2>
+              <p class="autor">{libro.autorx}</p>
+              <div class="meta">
+                <span>{libro.editorial}</span>
+                <span>{libro.anio}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <script>
+      let filtroActual = 'todos';
+
+      function filtrar(tipo, e) {
+        filtroActual = tipo;
+        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
+        e.target.classList.add('activo');
+        aplicarFiltros();
+      }
+
+      function buscarLibros() {
+        aplicarFiltros();
+      }
+
+      function aplicarFiltros() {
+        const texto = document.getElementById('buscador').value.toLowerCase();
+        const tarjetas = document.querySelectorAll('.card');
+
+        tarjetas.forEach(tarjeta => {
+          const estado = tarjeta.getAttribute('data-estado');
+          const titulo = tarjeta.getAttribute('data-titulo');
+          const autor = tarjeta.getAttribute('data-autor');
+          
+          const coincideFiltro = (filtroActual === 'todos' || estado === filtroActual);
+          const coincideTexto = (titulo.includes(texto) || autor.includes(texto));
+
+          if (coincideFiltro && coincideTexto) {
+            tarjeta.style.display = 'flex';
+          } else {
+            tarjeta.style.display = 'none';
+          }
+        });
+      }
+
+      const btnMembresia = document.getElementById('btnMembresia');
+      const modalMembresia = document.getElementById('modalMembresia');
+      const cerrarModal = document.getElementById('cerrarModal');
+
+      if (btnMembresia && modalMembresia && cerrarModal) {
+        btnMembresia.addEventListener('click', () => {
+          modalMembresia.style.display = 'flex';
+        });
+
+        cerrarModal.addEventListener('click', () => {
+          modalMembresia.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === modalMembresia) {
+            modalMembresia.style.display = 'none';
+          }
+        });
+      }
+
+      window.filtrar = filtrar;
+      window.buscarLibros = buscarLibros;
+    </script>
+  </body>
+</html>
