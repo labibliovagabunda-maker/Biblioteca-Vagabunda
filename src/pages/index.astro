@@ -1,6 +1,7 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
+import faviconSrc from '../assets/favicon.png';
 
 const filePath = path.resolve('src/pages/Catálogo Biblioteca Vagabunda - Disponibles.csv');
 const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -28,10 +29,10 @@ const libros = lines.slice(1).map(line => {
 ---
 
 <html lang="es">
-  <head>
-  <link rel="icon" href="/favicon.png" type="image/png" />
-    <meta charset="utf-8" />
-    <title>La Biblioteca Vagabunda | Catálogo</title>
+<head>
+  <link rel="icon" href={faviconSrc.src} type="image/png" />
+  <meta charset="utf-8" />
+  <title>La Biblioteca Vagabunda | Catálogo</title>
     <style is:global>
       :root {
         --bg-color: #fcfbfa;
