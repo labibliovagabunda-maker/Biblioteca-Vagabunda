@@ -119,10 +119,10 @@ const libros = lines.slice(1).map(line => {
         box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
       }
 
-      /* Animación del Carrito Viajero cruzando la pantalla */
+      /* Animación del Carrito Viajero de Derecha a Izquierda */
       .carrito-viajero-container {
         width: 100%;
-        height: 120px;
+        height: 110px;
         position: relative;
         overflow: hidden;
         margin-bottom: 2rem;
@@ -132,24 +132,24 @@ const libros = lines.slice(1).map(line => {
 
       .carrito-viajero {
         position: absolute;
-        height: 100px;
+        height: 90px;
         width: auto;
         cursor: pointer;
         border-radius: 10px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         border: 2px solid #fff;
-        animation: viajar 15s linear infinite;
+        animation: viajarDerechaIzquierda 16s linear infinite;
         transition: transform 0.2s ease;
       }
 
       .carrito-viajero:hover {
         transform: scale(1.08);
-        animation-play-state: paused; /* Se detiene tantito si pones el mouse encima */
+        animation-play-state: paused;
       }
 
-      @keyframes viajar {
-        0% { left: -150px; }
-        100% { left: 105%; }
+      @keyframes viajarDerechaIzquierda {
+        0% { right: -150px; left: auto; }
+        100% { right: 105%; left: auto; }
       }
 
       .controles {
@@ -365,7 +365,6 @@ const libros = lines.slice(1).map(line => {
         padding: 2rem;
         position: relative;
         box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        text-align: center;
       }
 
       .btn-close {
@@ -392,13 +391,99 @@ const libros = lines.slice(1).map(line => {
         padding-bottom: 1rem;
       }
 
-      .modal-img-grande {
-        max-width: 100%;
-        max-height: 70vh;
-        border-radius: 10px;
-        margin-top: 1rem;
+      .modal-body ol {
+        padding-left: 1.2rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #2d3748;
+      }
+
+      .modal-body li {
+        margin-bottom: 0.8rem;
+      }
+
+      .modal-footer-contact {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #edf2f7;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .flyers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .flyer-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .flyer-item img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        background: #eee;
+      }
+
+      .flyer-caption {
+        font-size: 0.8rem;
+        color: #555;
+        padding: 0.5rem;
+        margin: 0;
+      }
+
+      /* Modal translúcido y limpio para el carrito viajero */
+      .modal-overlay-limpio {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(6px);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+
+      .modal-img-limpia {
+        max-width: 90vw;
+        max-height: 90vh;
         object-fit: contain;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      }
+
+      .btn-close-limpio {
+        position: absolute;
+        top: 2rem;
+        right: 2.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        z-index: 2001;
+      }
+
+      .btn-close-limpio:hover {
+        background: rgba(255, 255, 255, 0.4);
       }
 
       footer {
@@ -476,9 +561,9 @@ const libros = lines.slice(1).map(line => {
         📝 Registro a la biblioteca
       </a>
 
-      <!-- Carrito Viajero Animado -->
+      <!-- Carrito Viajero Animado (De derecha a izquierda) -->
       <div class="carrito-viajero-container">
-        <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-viajero" id="btnCarritoModal" title="¡Haz clic para ver el próximo vagabundeo en grande!" />
+        <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-viajero" id="btnCarritoModal" title="Haz clic para ver en grande" />
       </div>
 
       <section class="info-grid">
@@ -500,28 +585,78 @@ const libros = lines.slice(1).map(line => {
 
       <!-- Modal de Reglamento de Membresías -->
       <div id="modalMembresia" class="modal-overlay">
-        <div class="modal-content" style="text-align: left;">
+        <div class="modal-content">
           <button id="cerrarModalMembresia" class="btn-close">&times;</button>
           <h2>🎀 Reglamento de Consulta y Membresías</h2>
-          <p class="modal-sub">Bienvenide a La Biblioteca Vagabunda. Gracias por formar parte de esta biblioteca...</p>
+          <p class="modal-sub">Bienvenide a La Biblioteca Vagabunda. Gracias por formar parte de esta biblioteca. Con este reglamento buscamos cuidar las relaciones y sentires que se tejen por medio de los textos, así como la materialidad misma de estos.</p>
+          
           <div class="modal-body">
             <ol>
-              <li><strong>Registro de Usuaries:</strong> Obligatorio llenar el Formulario de Registro.</li>
-              <li><strong>Modalidad Presencial:</strong> Gratuita en espacios públicos.</li>
-              <li><strong>Membresías:</strong> Básica ($150) y Estudiante ($100) + $200 de depósito.</li>
+              <li><strong>Registro de Usuaries:</strong> Para consultar el acervo o solicitar préstamos a domicilio, es obligatorio llenar el Formulario de Registro. Tus datos se tratarán con estricta confidencialidad.</li>
+              <li><strong>Modalidad Presencial:</strong> En nuestros bazares y eventos presenciales, cualquier persona puede consultar los materiales que contiene el archivo de manera totalmente gratuita.</li>
+              <li><strong>Membresías Mensuales:</strong> Para llevarte libros a casa debes contar con una membresía activa:
+                <ul>
+                  <li><strong>Básica:</strong> $150 MXN mensuales + $200 MXN de depósito en garantía.</li>
+                  <li><strong>Estudiante:</strong> $100 MXN mensuales + $200 MXN de depósito en garantía (requiere credencial vigente).</li>
+                </ul>
+              </li>
+              <li><strong>Formalización:</strong> Para activar tu membresía debes llenar el formulario y enviar al correo <code>la.biblio.vagabunda@gmail.com</code> tu comprobante de pago (mes + depósito) y una copia de tu identificación oficial (y escolar, si aplica).</li>
+              <li><strong>Depósito en Garantía:</strong> El depósito de $200 MXN se paga una sola vez al inicio. Se reembolsará íntegramente en un plazo de 3 a 5 días hábiles tras devolver el/los libro(s) y solicitar tu baja, siempre que no existan adeudos o daños.</li>
+              <li><strong>Límite de Libros:</strong> Cada membresía permite llevarse hasta 2 libros a la vez.</li>
+              <li><strong>Duración del Préstamo:</strong> Los préstamos duran 2 semanas (14 días naturales) a partir de la fecha acordada de entrega.</li>
+              <li><strong>Puntos de recolección:</strong>
+                <ul>
+                  <li><strong>Estaciones del Metro:</strong> Entregas y devoluciones presenciales en estaciones acordadas.</li>
+                  <li><strong>Espacios aliados:</strong> Puntos físicos aliados para recoger y devolver los materiales.</li>
+                  <li><strong>Eventos presenciales:</strong> Durante los eventos programados al menos una vez al mes.</li>
+                </ul>
+              </li>
+              <li><strong>Renovaciones:</strong> Tienes derecho a 1 renovación por 2 semanas más, siempre y cuando el libro no haya sido solicitado por alguien más. Debes pedir la renovación por correo al menos 3 días antes del vencimiento.</li>
+              <li><strong>Retrasos y Sanciones:</strong> En caso de no devolver el libro a tiempo, se cobrará una multa de $15 MXN por cada día de retraso.</li>
+              <li><strong>Cuidado del Material:</strong> Es obligación de le usuarie cuidar el libro.</li>
+              <li><strong>Pérdida y reposición:</strong> En caso de extravío o daño grave, deberás reponer el ejemplar por uno igual o similar.</li>
             </ol>
+            <div class="modal-footer-contact">
+              <p>¿Dudas o comentarios? Escríbenos a: <strong>la.biblio.vagabunda@gmail.com</strong></p>
+              <p><em>¡Gracias por hacer mover la cultura LGBT+! 🚚📚✨</em></p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Modal para Ver el Carrito / Próximo Vagabundeo en Grande -->
-      <div id="modalCarrito" class="modal-overlay">
-        <div class="modal-content">
-          <button id="cerrarModalCarrito" class="btn-close">&times;</button>
-          <h2>🚚 Próximo Vagabundeo</h2>
-          <p class="modal-sub">¡Acompaña a la ruta de los libros libres!</p>
-          <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo en grande" class="modal-img-grande" />
+      <!-- Modal de Activaciones y Talleres (Galería de Flyers) -->
+      <div id="modalTalleres" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px;">
+          <button id="cerrarModalTalleres" class="btn-close">&times;</button>
+          <h2>🎨 Galería de Activaciones y Talleres</h2>
+          <p class="modal-sub">Un recorrido visual por nuestros talleres de creación literaria, sesiones de cuentacuentos y activaciones en espacios públicos de la CDMX.</p>
+          
+          <div class="modal-body">
+            <p>Aquí puedes consultar algunos de los flyers y registros fotográficos de nuestros encuentros comunitarios:</p>
+            
+            <div class="flyers-grid">
+              <div class="flyer-item">
+                <img src="/flyers/activacion-1.jpeg" alt="Flyer evento 1" />
+                <p class="flyer-caption">Activación anterior 1</p>
+              </div>
+
+              <div class="flyer-item">
+                <img src="/flyers/activacion-2.jpeg" alt="Flyer evento 2" />
+                <p class="flyer-caption">Activación anterior 2</p>
+              </div>
+            </div>
+
+            <div class="modal-footer-contact" style="margin-top: 2rem;">
+              <p>¿Quieres organizar una activación o taller con nosotres? Escríbenos a <strong>la.biblio.vagabunda@gmail.com</strong> o por Instagram.</p>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Modal Limpio del Carrito -->
+      <div id="modalCarrito" class="modal-overlay-limpio">
+        <button id="cerrarModalCarrito" class="btn-close-limpio">&times;</button>
+        <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo en grande" class="modal-img-limpia" />
       </div>
 
       <div class="controles">
@@ -556,12 +691,18 @@ const libros = lines.slice(1).map(line => {
       </div>
     </div>
 
+    <!-- Pie de página con Contacto e Instagram -->
     <footer>
       <div class="footer-content">
         <h3>📬 Contáctanos</h3>
         <div class="footer-links">
-          <a href="mailto:la.biblio.vagabunda@gmail.com" class="footer-link">✉️ la.biblio.vagabunda@gmail.com</a>
-          <a href="https://www.instagram.com/biblio_vagabunda/" target="_blank" class="footer-link">@biblio_vagabunda</a>
+          <a href="mailto:la.biblio.vagabunda@gmail.com" class="footer-link">
+            ✉️ la.biblio.vagabunda@gmail.com
+          </a>
+          <a href="https://www.instagram.com/biblio_vagabunda/" target="_blank" class="footer-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @biblio_vagabunda
+          </a>
         </div>
         <p class="footer-copy">La Biblioteca Vagabunda • Lecturas LGBT+ en movimiento 🚚📚</p>
       </div>
@@ -601,7 +742,49 @@ const libros = lines.slice(1).map(line => {
         });
       }
 
-      // Control del Modal del Carrito / Próximo Vagabundeo
+      // Control del Modal de Membresía
+      const btnMembresia = document.getElementById('btnMembresia');
+      const modalMembresia = document.getElementById('modalMembresia');
+      const cerrarModalMembresia = document.getElementById('cerrarModalMembresia');
+
+      if (btnMembresia && modalMembresia && cerrarModalMembresia) {
+        btnMembresia.addEventListener('click', () => {
+          modalMembresia.style.display = 'flex';
+        });
+
+        cerrarModalMembresia.addEventListener('click', () => {
+          modalMembresia.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === modalMembresia) {
+            modalMembresia.style.display = 'none';
+          }
+        });
+      }
+
+      // Control del Modal de Talleres / Flyers
+      const btnTalleres = document.getElementById('btnTalleres');
+      const modalTalleres = document.getElementById('modalTalleres');
+      const cerrarModalTalleres = document.getElementById('cerrarModalTalleres');
+
+      if (btnTalleres && modalTalleres && cerrarModalTalleres) {
+        btnTalleres.addEventListener('click', () => {
+          modalTalleres.style.display = 'flex';
+        });
+
+        cerrarModalTalleres.addEventListener('click', () => {
+          modalTalleres.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === modalTalleres) {
+            modalTalleres.style.display = 'none';
+          }
+        });
+      }
+
+      // Control del Modal Limpio del Carrito
       const btnCarritoModal = document.getElementById('btnCarritoModal');
       const modalCarrito = document.getElementById('modalCarrito');
       const cerrarModalCarrito = document.getElementById('cerrarModalCarrito');
