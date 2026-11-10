@@ -53,6 +53,7 @@ const libros = lines.slice(1).map(line => {
         flex-direction: column;
         min-height: 100vh;
         margin: 0;
+        overflow-x: hidden;
       }
 
       .container {
@@ -118,64 +119,37 @@ const libros = lines.slice(1).map(line => {
         box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
       }
 
-      /* Estilo del Carrito Viajero / Próximo Vagabundeo */
-      .carrito-banner {
-        background: white;
-        border: 2px dashed #e67e22;
-        border-radius: 14px;
-        padding: 1.5rem;
-        margin-bottom: 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-        box-shadow: 0 4px 15px rgba(230, 126, 34, 0.1);
-      }
-
-      .carrito-info h3 {
-        margin: 0 0 0.4rem 0;
-        color: #1a1a1a;
-        font-size: 1.2rem;
-      }
-
-      .carrito-info p {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-      }
-
-      .carrito-preview-container {
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        border-radius: 10px;
-        border: 2px solid var(--border);
-        max-width: 220px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .carrito-preview-container:hover {
-        transform: scale(1.03);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-      }
-
-      .carrito-preview {
+      /* Animación del Carrito Viajero cruzando la pantalla */
+      .carrito-viajero-container {
         width: 100%;
         height: 120px;
-        object-fit: cover;
-        display: block;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
       }
 
-      .carrito-overlay-text {
+      .carrito-viajero {
         position: absolute;
-        bottom: 0;
-        background: rgba(0,0,0,0.7);
-        color: white;
-        width: 100%;
-        font-size: 0.75rem;
-        text-align: center;
-        padding: 0.2rem 0;
+        height: 100px;
+        width: auto;
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        border: 2px solid #fff;
+        animation: viajar 15s linear infinite;
+        transition: transform 0.2s ease;
+      }
+
+      .carrito-viajero:hover {
+        transform: scale(1.08);
+        animation-play-state: paused; /* Se detiene tantito si pones el mouse encima */
+      }
+
+      @keyframes viajar {
+        0% { left: -150px; }
+        100% { left: 105%; }
       }
 
       .controles {
@@ -502,17 +476,10 @@ const libros = lines.slice(1).map(line => {
         📝 Registro a la biblioteca
       </a>
 
-      <!-- Banner de Próximo Vagabundeo con el Carrito -->
-      <section class="carrito-banner">
-        <div class="carrito-info">
-          <h3>🚚 ¡Próximo Vagabundeo!</h3>
-          <p>Entérate de dónde nos estaremos instalando próximamente en las calles de la CDMX. <strong>Haz clic en la imagen para verla en grande.</strong></p>
-        </div>
-        <div class="carrito-preview-container" id="btnCarritoModal">
-          <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-preview" />
-          <div class="carrito-overlay-text">🔍 Clic para ampliar</div>
-        </div>
-      </section>
+      <!-- Carrito Viajero Animado -->
+      <div class="carrito-viajero-container">
+        <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-viajero" id="btnCarritoModal" title="¡Haz clic para ver el próximo vagabundeo en grande!" />
+      </div>
 
       <section class="info-grid">
         <div class="info-card">
