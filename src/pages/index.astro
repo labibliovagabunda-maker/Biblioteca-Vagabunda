@@ -375,7 +375,35 @@ const libros = lines.slice(1).map(line => {
         font-size: 0.9rem;
       }
 
-      /* Estilos para el Footer de Contacto */
+      .flyers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .flyer-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .flyer-item img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        background: #eee;
+      }
+
+      .flyer-caption {
+        font-size: 0.8rem;
+        color: #555;
+        padding: 0.5rem;
+        margin: 0;
+      }
+
       footer {
         background: #ffffff;
         border-top: 1px solid var(--border);
@@ -462,15 +490,16 @@ const libros = lines.slice(1).map(line => {
           <p>¿Quieres leer con más calma? Contamos con un sistema de membresías mensuales accesibles para solicitar préstamos a domicilio. <strong>Haz clic aquí para leer el reglamento.</strong></p>
         </div>
 
-        <div class="info-card">
-          <h3>🎨 Activaciones comunitarias y talleres</h3>
-          <p>No solo prestamos libros: Realizamos talleres de creación literaria, sesiones de cuentacuentos drag, círculos de lectura y dinámicas para que compartas tu propia voz.</p>
+        <div class="info-card info-card-clickable" id="btnTalleres">
+          <h3>🎨 Activaciones comunitarias y talleres <span class="ver-mas">🖼️ Ver galería y flyers anteriores</span></h3>
+          <p>No solo prestamos libros: Realizamos talleres de creación literaria, sesiones de cuentacuentos drag, círculos de lectura y dinámicas para que compartas tu propia voz. <strong>Haz clic aquí para ver fotos y flyers.</strong></p>
         </div>
       </section>
 
+      <!-- Modal de Reglamento de Membresías -->
       <div id="modalMembresia" class="modal-overlay">
         <div class="modal-content">
-          <button id="cerrarModal" class="btn-close">&times;</button>
+          <button id="cerrarModalMembresia" class="btn-close">&times;</button>
           <h2>🎀 Reglamento de Consulta y Membresías</h2>
           <p class="modal-sub">Bienvenide a La Biblioteca Vagabunda. Gracias por formar parte de esta biblioteca. Con este reglamento buscamos cuidar las relaciones y sentires que se tejen por medio de los textos, así como la materialidad misma de estos.</p>
           
@@ -503,6 +532,35 @@ const libros = lines.slice(1).map(line => {
             <div class="modal-footer-contact">
               <p>¿Dudas o comentarios? Escríbenos a: <strong>la.biblio.vagabunda@gmail.com</strong></p>
               <p><em>¡Gracias por hacer mover la cultura LGBT+! 🚚📚✨</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de Activaciones y Talleres (Galería de Flyers) -->
+      <div id="modalTalleres" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px;">
+          <button id="cerrarModalTalleres" class="btn-close">&times;</button>
+          <h2>🎨 Galería de Activaciones y Talleres</h2>
+          <p class="modal-sub">Un recorrido visual por nuestros talleres de creación literaria, sesiones de cuentacuentos y activaciones en espacios públicos de la CDMX.</p>
+          
+          <div class="modal-body">
+            <p>Aquí puedes consultar algunos de los flyers y registros fotográficos de nuestros encuentros comunitarios:</p>
+            
+            <div class="flyers-grid">
+              <div class="flyer-item">
+                <img src="/flyers/activacion-1.jpeg" alt="Flyer evento 1" />
+                <p class="flyer-caption">Activación anterior 1</p>
+              </div>
+
+              <div class="flyer-item">
+                <img src="/flyers/activacion-2.jpeg" alt="Flyer evento 2" />
+                <p class="flyer-caption">Activación anterior 2</p>
+              </div>
+            </div>
+
+            <div class="modal-footer-contact" style="margin-top: 2rem;">
+              <p>¿Quieres organizar una activación o taller con nosotres? Escríbenos a <strong>la.biblio.vagabunda@gmail.com</strong> o por Instagram.</p>
             </div>
           </div>
         </div>
@@ -591,22 +649,44 @@ const libros = lines.slice(1).map(line => {
         });
       }
 
+      // Control del Modal de Membresía
       const btnMembresia = document.getElementById('btnMembresia');
       const modalMembresia = document.getElementById('modalMembresia');
-      const cerrarModal = document.getElementById('cerrarModal');
+      const cerrarModalMembresia = document.getElementById('cerrarModalMembresia');
 
-      if (btnMembresia && modalMembresia && cerrarModal) {
+      if (btnMembresia && modalMembresia && cerrarModalMembresia) {
         btnMembresia.addEventListener('click', () => {
           modalMembresia.style.display = 'flex';
         });
 
-        cerrarModal.addEventListener('click', () => {
+        cerrarModalMembresia.addEventListener('click', () => {
           modalMembresia.style.display = 'none';
         });
 
         window.addEventListener('click', (e) => {
           if (e.target === modalMembresia) {
             modalMembresia.style.display = 'none';
+          }
+        });
+      }
+
+      // Control del Modal de Talleres / Flyers
+      const btnTalleres = document.getElementById('btnTalleres');
+      const modalTalleres = document.getElementById('modalTalleres');
+      const cerrarModalTalleres = document.getElementById('cerrarModalTalleres');
+
+      if (btnTalleres && modalTalleres && cerrarModalTalleres) {
+        btnTalleres.addEventListener('click', () => {
+          modalTalleres.style.display = 'flex';
+        });
+
+        cerrarModalTalleres.addEventListener('click', () => {
+          modalTalleres.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === modalTalleres) {
+            modalTalleres.style.display = 'none';
           }
         });
       }
