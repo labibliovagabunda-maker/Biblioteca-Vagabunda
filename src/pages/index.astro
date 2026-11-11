@@ -63,38 +63,12 @@ const libros = lines.slice(1).map(line => {
         padding-bottom: 3rem;
       }
 
-      /* Barra superior para botones rápidos */
-      .top-bar {
-        display: flex;
-        justify-content: flex-end;
-        padding: 1.2rem 1.5rem 0.5rem 1.5rem;
-      }
-
-      .btn-instagram-top {
-        background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border-radius: 25px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-decoration: none;
-        box-shadow: 0 4px 12px rgba(220, 39, 67, 0.3);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .btn-instagram-top:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(220, 39, 67, 0.4);
-      }
-
       header {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 1.5rem;
+        margin-top: 1.5rem;
         margin-bottom: 2rem;
         flex-wrap: wrap;
         text-align: center;
@@ -122,10 +96,19 @@ const libros = lines.slice(1).map(line => {
         font-size: 1.05rem;
       }
 
-      .btn-flotante-registro {
+      /* Contenedor de Botones Flotantes en la esquina inferior derecha */
+      .botones-flotantes {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        z-index: 999;
+        align-items: flex-end;
+      }
+
+      .btn-flotante-registro {
         background: linear-gradient(135deg, #7c3aed, #4f46e5);
         color: white;
         padding: 0.9rem 1.6rem;
@@ -138,12 +121,31 @@ const libros = lines.slice(1).map(line => {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        z-index: 999;
       }
 
       .btn-flotante-registro:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
+      }
+
+      .btn-flotante-instagram {
+        background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        color: white;
+        padding: 0.8rem 1.4rem;
+        border-radius: 35px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 6px 20px rgba(220, 39, 67, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-flotante-instagram:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(220, 39, 67, 0.5);
       }
 
       /* Animación del Carrito Viajero de Derecha a Izquierda */
@@ -566,13 +568,6 @@ const libros = lines.slice(1).map(line => {
   </head>
   <body>
     <div class="container">
-      <!-- Botón superior para ir a Instagram -->
-      <div class="top-bar">
-        <a href="https://www.instagram.com/biblio_vagabunda/" target="_blank" class="btn-instagram-top">
-          📷 Síguenos en Instagram
-        </a>
-      </div>
-
       <header>
         <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
         <div class="header-text">
@@ -581,9 +576,15 @@ const libros = lines.slice(1).map(line => {
         </div>
       </header>
 
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSckxAiF1LnoW7t8h9BongQfZ9AmCFB917gauxaj5jX3QGvUZg/viewform" target="_blank" class="btn-flotante-registro">
-        📝 Registro a la biblioteca
-      </a>
+      <!-- Botones Flotantes en la esquina inferior derecha -->
+      <div class="botones-flotantes">
+        <a href="https://www.instagram.com/biblio_vagabunda/" target="_blank" class="btn-flotante-instagram">
+          📷 Síguenos en Instagram
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSckxAiF1LnoW7t8h9BongQfZ9AmCFB917gauxaj5jX3QGvUZg/viewform" target="_blank" class="btn-flotante-registro">
+          📝 Registro a la biblioteca
+        </a>
+      </div>
 
       <!-- Carrito Viajero Animado (De derecha a izquierda) -->
       <div class="carrito-viajero-container">
