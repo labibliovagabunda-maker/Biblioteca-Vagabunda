@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const filePath = path.resolve('src/pages/Catálogo Biblioteca Vagabunda - Disponibles.csv');
+const filePath = path.resolve('./src/pages/Catálogo Biblioteca Vagabunda - Disponibles.csv');
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const lines = fileContent.split('\n').filter(Boolean);
 
