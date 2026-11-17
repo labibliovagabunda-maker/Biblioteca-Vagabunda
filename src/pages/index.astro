@@ -64,6 +64,9 @@ const libros = lines.slice(1).map(line => {
       }
 
       header {
+        <div style="background: #e0c3fc; padding: 1rem; text-align: center; font-weight: bold; margin-bottom: 1rem; border-radius: 8px;">
+  Total de libros leídos en el CSV: {libros.length}
+</div>
         display: flex;
         align-items: center;
         justify-content: center;
