@@ -24,7 +24,7 @@ const libros = lines.slice(1).map(line => {
     esPrestado: estadoTexto.toLowerCase().includes('prestamo') || estadoTexto.toLowerCase().includes('préstamo') || estadoTexto.toLowerCase().includes('prestado'),
     foto: `/portadas/${codigo}.png`
   };
-});
+}).sort((a, b) => a.titulo.localeCompare(b.titulo, 'es'));
 ---
 
 <html lang="es">
