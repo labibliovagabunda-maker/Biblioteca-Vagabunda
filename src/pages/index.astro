@@ -63,10 +63,17 @@ const libros = lines.slice(1).map(line => {
         padding-bottom: 3rem;
       }
 
+      .debug-bar {
+        background: #e0c3fc;
+        padding: 1rem;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        color: #4c1d95;
+      }
+
       header {
-        <div style="background: #e0c3fc; padding: 1rem; text-align: center; font-weight: bold; margin-bottom: 1rem; border-radius: 8px;">
-  Total de libros leídos en el CSV: {libros.length}
-</div>
         display: flex;
         align-items: center;
         justify-content: center;
@@ -99,7 +106,6 @@ const libros = lines.slice(1).map(line => {
         font-size: 1.05rem;
       }
 
-      /* Contenedor de Botones Flotantes en la esquina inferior derecha */
       .botones-flotantes {
         position: fixed;
         bottom: 2rem;
@@ -151,7 +157,6 @@ const libros = lines.slice(1).map(line => {
         box-shadow: 0 8px 24px rgba(220, 39, 67, 0.5);
       }
 
-      /* Animación del Carrito Viajero de Derecha a Izquierda */
       .carrito-viajero-container {
         width: 100%;
         height: 110px;
@@ -471,7 +476,6 @@ const libros = lines.slice(1).map(line => {
         margin: 0;
       }
 
-      /* Modal con fondo blanco elegante y sombreado para el carrito */
       .modal-overlay-blanco {
         display: none;
         position: fixed;
@@ -571,6 +575,12 @@ const libros = lines.slice(1).map(line => {
   </head>
   <body>
     <div class="container">
+      
+      <!-- Barrita de diagnóstico para ver cuántos libros lee exactamente el CSV -->
+      <div class="debug-bar">
+        Total de libros leídos en el CSV: {libros.length}
+      </div>
+
       <header>
         <img src="/logo.png" alt="Logo Biblioteca Vagabunda" class="logo" onerror="this.style.display='none'" />
         <div class="header-text">
@@ -579,7 +589,6 @@ const libros = lines.slice(1).map(line => {
         </div>
       </header>
 
-      <!-- Botones Flotantes en la esquina inferior derecha -->
       <div class="botones-flotantes">
         <a href="https://www.instagram.com/biblio_vagabunda/" target="_blank" class="btn-flotante-instagram">
           📷 Síguenos en Instagram
@@ -589,7 +598,6 @@ const libros = lines.slice(1).map(line => {
         </a>
       </div>
 
-      <!-- Carrito Viajero Animado (De derecha a izquierda) -->
       <div class="carrito-viajero-container">
         <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-viajero" id="btnCarritoModal" title="Haz clic para ver en grande" />
       </div>
@@ -611,7 +619,6 @@ const libros = lines.slice(1).map(line => {
         </div>
       </section>
 
-      <!-- Modal de Reglamento de Membresías -->
       <div id="modalMembresia" class="modal-overlay">
         <div class="modal-content">
           <button id="cerrarModalMembresia" class="btn-close">&times;</button>
@@ -652,7 +659,6 @@ const libros = lines.slice(1).map(line => {
         </div>
       </div>
 
-      <!-- Modal de Activaciones y Talleres (Galería de Flyers) -->
       <div id="modalTalleres" class="modal-overlay">
         <div class="modal-content" style="max-width: 800px;">
           <button id="cerrarModalTalleres" class="btn-close">&times;</button>
@@ -681,7 +687,6 @@ const libros = lines.slice(1).map(line => {
         </div>
       </div>
 
-      <!-- Modal con Fondo Blanco y Tarjeta para el Carrito -->
       <div id="modalCarrito" class="modal-overlay-blanco">
         <div class="modal-content-blanco">
           <button id="cerrarModalCarrito" class="btn-close">&times;</button>
@@ -721,7 +726,6 @@ const libros = lines.slice(1).map(line => {
       </div>
     </div>
 
-    <!-- Pie de página con Contacto e Instagram -->
     <footer>
       <div class="footer-content">
         <h3>📬 Contáctanos</h3>
@@ -772,67 +776,34 @@ const libros = lines.slice(1).map(line => {
         });
       }
 
-      // Control del Modal de Membresía
       const btnMembresia = document.getElementById('btnMembresia');
       const modalMembresia = document.getElementById('modalMembresia');
       const cerrarModalMembresia = document.getElementById('cerrarModalMembresia');
 
       if (btnMembresia && modalMembresia && cerrarModalMembresia) {
-        btnMembresia.addEventListener('click', () => {
-          modalMembresia.style.display = 'flex';
-        });
-
-        cerrarModalMembresia.addEventListener('click', () => {
-          modalMembresia.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-          if (e.target === modalMembresia) {
-            modalMembresia.style.display = 'none';
-          }
-        });
+        btnMembresia.addEventListener('click', () => { modalMembresia.style.display = 'flex'; });
+        cerrarModalMembresia.addEventListener('click', () => { modalMembresia.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === modalMembresia) { modalMembresia.style.display = 'none'; } });
       }
 
-      // Control del Modal de Talleres / Flyers
       const btnTalleres = document.getElementById('btnTalleres');
       const modalTalleres = document.getElementById('modalTalleres');
       const cerrarModalTalleres = document.getElementById('cerrarModalTalleres');
 
       if (btnTalleres && modalTalleres && cerrarModalTalleres) {
-        btnTalleres.addEventListener('click', () => {
-          modalTalleres.style.display = 'flex';
-        });
-
-        cerrarModalTalleres.addEventListener('click', () => {
-          modalTalleres.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-          if (e.target === modalTalleres) {
-            modalTalleres.style.display = 'none';
-          }
-        });
+        btnTalleres.addEventListener('click', () => { modalTalleres.style.display = 'flex'; });
+        cerrarModalTalleres.addEventListener('click', () => { modalTalleres.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === modalTalleres) { modalTalleres.style.display = 'none'; } });
       }
 
-      // Control del Modal Blanco con Tarjeta del Carrito
       const btnCarritoModal = document.getElementById('btnCarritoModal');
       const modalCarrito = document.getElementById('modalCarrito');
       const cerrarModalCarrito = document.getElementById('cerrarModalCarrito');
 
       if (btnCarritoModal && modalCarrito && cerrarModalCarrito) {
-        btnCarritoModal.addEventListener('click', () => {
-          modalCarrito.style.display = 'flex';
-        });
-
-        cerrarModalCarrito.addEventListener('click', () => {
-          modalCarrito.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-          if (e.target === modalCarrito) {
-            modalCarrito.style.display = 'none';
-          }
-        });
+        btnCarritoModal.addEventListener('click', () => { modalCarrito.style.display = 'flex'; });
+        cerrarModalCarrito.addEventListener('click', () => { modalCarrito.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === modalCarrito) { modalCarrito.style.display = 'none'; } });
       }
 
       window.filtrar = filtrar;
