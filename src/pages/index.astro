@@ -165,6 +165,7 @@ const libros = lines.slice(1).map(line => {
         border-radius: 10px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         border: 2px solid #fff;
+        right: -180px;
         animation: viajarDerechaIzquierda 16s linear infinite;
         transition: transform 0.2s ease;
       }
@@ -174,9 +175,17 @@ const libros = lines.slice(1).map(line => {
         animation-play-state: paused;
       }
 
+      .carrito-viajero-dos {
+        animation-delay: 8s;
+      }
+
       @keyframes viajarDerechaIzquierda {
-        0% { right: -150px; left: auto; }
-        100% { right: 105%; left: auto; }
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(calc(-100vw - 260px));
+        }
       }
 
       .controles {
@@ -585,6 +594,7 @@ const libros = lines.slice(1).map(line => {
 
       <div class="carrito-viajero-container">
         <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo" class="carrito-viajero" id="btnCarritoModal" title="Haz clic para ver en grande" />
+        <img src="/proximo_vagabundeo_dic.png" alt="Próximo Vagabundeo Diciembre" class="carrito-viajero carrito-viajero-dos" id="btnCarritoModalDic" title="Haz clic para ver en grande" />
       </div>
 
       <section class="info-grid">
@@ -676,6 +686,13 @@ const libros = lines.slice(1).map(line => {
         <div class="modal-content-blanco">
           <button id="cerrarModalCarrito" class="btn-close">&times;</button>
           <img src="/proximo_vagabundeo.png" alt="Próximo Vagabundeo en grande" class="modal-img-grande" />
+        </div>
+      </div>
+
+      <div id="modalCarritoDic" class="modal-overlay-blanco">
+        <div class="modal-content-blanco">
+          <button id="cerrarModalCarritoDic" class="btn-close">&times;</button>
+          <img src="/proximo_vagabundeo_dic.png" alt="Próximo Vagabundeo Diciembre en grande" class="modal-img-grande" />
         </div>
       </div>
 
@@ -789,6 +806,16 @@ const libros = lines.slice(1).map(line => {
         btnCarritoModal.addEventListener('click', () => { modalCarrito.style.display = 'flex'; });
         cerrarModalCarrito.addEventListener('click', () => { modalCarrito.style.display = 'none'; });
         window.addEventListener('click', (e) => { if (e.target === modalCarrito) { modalCarrito.style.display = 'none'; } });
+      }
+
+      const btnCarritoModalDic = document.getElementById('btnCarritoModalDic');
+      const modalCarritoDic = document.getElementById('modalCarritoDic');
+      const cerrarModalCarritoDic = document.getElementById('cerrarModalCarritoDic');
+
+      if (btnCarritoModalDic && modalCarritoDic && cerrarModalCarritoDic) {
+        btnCarritoModalDic.addEventListener('click', () => { modalCarritoDic.style.display = 'flex'; });
+        cerrarModalCarritoDic.addEventListener('click', () => { modalCarritoDic.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === modalCarritoDic) { modalCarritoDic.style.display = 'none'; } });
       }
 
       window.filtrar = filtrar;
