@@ -316,7 +316,17 @@ const libros = lines.slice(1).map(line => {
         color: var(--text-muted);
         font-size: 0.85rem;
         font-weight: 500;
-        margin: 0 0 1rem 0;
+        margin: 0 0 0.7rem 0;
+      }
+
+      .procedencia {
+        font-size: 0.78rem;
+        color: #6b21a8;
+        background: #f5f3ff;
+        padding: 0.35rem 0.6rem;
+        border-radius: 6px;
+        margin: 0 0 0.9rem 0;
+        line-height: 1.3;
       }
 
       .meta {
@@ -726,6 +736,9 @@ const libros = lines.slice(1).map(line => {
               </div>
               <h2>{libro.titulo}</h2>
               <p class="autor">{libro.autorx}</p>
+              {libro.procedencia && (
+                <p class="procedencia">{libro.procedencia}</p>
+              )}
               <div class="meta">
                 <span>{libro.editorial}</span>
                 <span>{libro.anio}</span>
