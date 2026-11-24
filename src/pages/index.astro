@@ -46,11 +46,11 @@ const libros = lines.slice(1).map(line => {
 
 .logo-cayendo {
   position: absolute;
-  top: -80px;
-  width: 44px;
-  height: 44px;
+  top: -120px;
+  width: 85px;
+  height: 85px;
   object-fit: contain;
-  opacity: 0.85;
+  opacity: 1;
   animation-name: caerLogo;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -875,26 +875,25 @@ const libros = lines.slice(1).map(line => {
 const contenedorLluvia = document.getElementById('lluviaLogos');
 
 if (contenedorLluvia) {
-  const cantidadLogos = 12;
+  contenedorLluvia.innerHTML = '';
 
-  for (let i = 0; i < cantidadLogos; i++) {
-    const img = document.createElement('img');
-    img.src = imagenesLluvia[i % imagenesLluvia.length];
-    img.alt = '';
-    img.className = 'logo-cayendo';
+  const img = document.createElement('img');
+  img.src = imagenesLluvia[0];
+  img.alt = '';
+  img.className = 'logo-cayendo';
 
-    const left = Math.random() * 95;
-    const duracion = 7 + Math.random() * 7;
-    const delay = -(Math.random() * 12);
-    const tamano = 32 + Math.random() * 24;
+  const left = 10 + Math.random() * 75; // Entre 10% y 85% para que no quede pegado a la orilla
+  const duracion = 11; // Segundos que tarda en cruzar de arriba a abajo
+  const tamano = 85; // Tamaño en píxeles (súbelo a 100 si lo quieres aún más grande)
 
-    img.style.left = `${left}%`;
-    img.style.width = `${tamano}px`;
-    img.style.height = `${tamano}px`;
-    img.style.animationDuration = `${duracion}s`;
-    img.style.animationDelay = `${delay}s`;
+  img.style.left = `${left}%`;
+  img.style.width = `${tamano}px`;
+  img.style.height = `${tamano}px`;
+  img.style.animationDuration = `${duracion}s`;
+  img.style.animationDelay = '0s';
 
-    contenedorLluvia.appendChild(img);
+  contenedorLluvia.appendChild(img);
+}
   }
 }
     </script>
