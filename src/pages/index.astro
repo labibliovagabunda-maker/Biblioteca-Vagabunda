@@ -10,8 +10,9 @@ const libros = lines.slice(1).map(line => {
   const values = line.split(',');
   const codigo = values[0] ? values[0].trim() : '';
   const estadoTexto = values[8] ? values[8].trim() : 'Disponible';
-  
-  return {
+  const procedencia = values[9] ? values[9].trim() : '';
+
+  rreturn {
     codigo: codigo,
     isbn: values[1] ? values[1].trim() : '',
     titulo: values[2] ? values[2].trim() : '',
@@ -21,6 +22,7 @@ const libros = lines.slice(1).map(line => {
     lugar: values[6] ? values[6].trim() : '',
     tipo: values[7] ? values[7].trim() : 'Libro',
     estado: estadoTexto,
+    procedencia: procedencia,
     esPrestado: estadoTexto.toLowerCase().includes('prestamo') || estadoTexto.toLowerCase().includes('préstamo') || estadoTexto.toLowerCase().includes('prestado'),
     foto: `/portadas/${codigo}.png`
   };
