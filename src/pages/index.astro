@@ -36,34 +36,33 @@ const libros = lines.slice(1).map(line => {
     <link rel="icon" type="image/png" href="/favicon.png" />
     <script defer src="/_vercel/insights/script.js"></script>
     <style is:global>
-    .lluvia-logos {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 950;
-}
+      .lluvia-logos {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 950;
+      }
 
-.logo-cayendo {
-  position: absolute;
-  top: -120px;
-  width: 85px;
-  height: 85px;
-  object-fit: contain;
-  opacity: 1;
-  animation-name: caerLogo;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
+      .logo-cayendo {
+        position: absolute;
+        top: -120px;
+        width: 85px;
+        height: 85px;
+        object-fit: contain;
+        opacity: 1;
+        pointer-events: none;
+      }
 
-@keyframes caerLogo {
-  0% {
-    transform: translateY(-80px) rotate(0deg);
-  }
-  100% {
-    transform: translateY(110vh) rotate(360deg);
-  }
-}
+      @keyframes caerLogo {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateY(125vh) rotate(360deg);
+        }
+      }
+
       :root {
         --bg-color: #fcfbfa;
         --card-bg: #ffffff;
@@ -614,7 +613,7 @@ const libros = lines.slice(1).map(line => {
     </style>
   </head>
   <body>
-  <div class="lluvia-logos" id="lluviaLogos" aria-hidden="true"></div>
+    <div class="lluvia-logos" id="lluviaLogos" aria-hidden="true"></div>
     <div class="container">
 
       <header>
@@ -872,32 +871,35 @@ const libros = lines.slice(1).map(line => {
       window.buscarLibros = buscarLibros;
 
       const imagenesLluvia = ['/aliados1.png'];
-const contenedorLluvia = document.getElementById('lluviaLogos');
+      const contenedorLluvia = document.getElementById('lluviaLogos');
 
-if (contenedorLluvia) {
-  contenedorLluvia.innerHTML = '';
+      if (contenedorLluvia) {
+        contenedorLluvia.innerHTML = '';
 
-  const img = document.createElement('img');
-  img.src = imagenesLluvia[0];
-  img.alt = '';
-  img.className = 'logo-cayendo';
+        const img = document.createElement('img');
+        img.src = imagenesLluvia[0];
+        img.alt = '';
+        img.className = 'logo-cayendo';
+        contenedorLluvia.appendChild(img);
 
-  const posicionarAleatoriamente = () => {
-    const left = 8 + Math.random() * 78; // Entre 8% y 86% del ancho
-    const duracion = 9 + Math.random() * 5; // Entre 9 y 14 segundos
-    const tamano = 80 + Math.random() * 20; // Entre 80px y 100px
+        const lanzarDesdeArriba = () => {
+          const left = 8 + Math.random() * 78;
+          const duracion = 9 + Math.random() * 4;
+          const tamano = 85 + Math.random() * 15;
 
-    img.style.left = `${left}%`;
-    img.style.width = `${tamano}px`;
-    img.style.height = `${tamano}px`;
-    img.style.animationDuration = `${duracion}s`;
-  };
+          img.style.animation = 'none';
+          img.style.left = `${left}%`;
+          img.style.width = `${tamano}px`;
+          img.style.height = `${tamano}px`;
 
-  posicionarAleatoriamente();
-  img.addEventListener('animationiteration', posicionarAleatoriamente);
+          void img.offsetWidth;
 
-  contenedorLluvia.appendChild(img);
-}
+          img.style.animation = `caerLogo ${duracion}s linear forwards`;
+        };
+
+        img.addEventListener('animationend', lanzarDesdeArriba);
+        lanzarDesdeArriba();
+      }
     </script>
   </body>
 </html>
