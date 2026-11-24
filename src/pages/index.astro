@@ -882,15 +882,19 @@ if (contenedorLluvia) {
   img.alt = '';
   img.className = 'logo-cayendo';
 
-  const left = 10 + Math.random() * 75; // Entre 10% y 85% para que no quede pegado a la orilla
-  const duracion = 11; // Segundos que tarda en cruzar de arriba a abajo
-  const tamano = 85; // Tamaño en píxeles (súbelo a 100 si lo quieres aún más grande)
+  const posicionarAleatoriamente = () => {
+    const left = 8 + Math.random() * 78; // Entre 8% y 86% del ancho
+    const duracion = 9 + Math.random() * 5; // Entre 9 y 14 segundos
+    const tamano = 80 + Math.random() * 20; // Entre 80px y 100px
 
-  img.style.left = `${left}%`;
-  img.style.width = `${tamano}px`;
-  img.style.height = `${tamano}px`;
-  img.style.animationDuration = `${duracion}s`;
-  img.style.animationDelay = '0s';
+    img.style.left = `${left}%`;
+    img.style.width = `${tamano}px`;
+    img.style.height = `${tamano}px`;
+    img.style.animationDuration = `${duracion}s`;
+  };
+
+  posicionarAleatoriamente();
+  img.addEventListener('animationiteration', posicionarAleatoriamente);
 
   contenedorLluvia.appendChild(img);
 }
