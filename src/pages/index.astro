@@ -12,7 +12,7 @@ const libros = lines.slice(1).map(line => {
   const estadoTexto = values[8] ? values[8].trim() : 'Disponible';
   const procedencia = values[9] ? values[9].trim() : '';
 
-  rreturn {
+  return {
     codigo: codigo,
     isbn: values[1] ? values[1].trim() : '',
     titulo: values[2] ? values[2].trim() : '',
