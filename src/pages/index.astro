@@ -45,23 +45,27 @@ const libros = lines.slice(1).map(line => {
       }
 
       .logo-cayendo {
-        position: absolute;
-        top: -120px;
-        width: 85px;
-        height: 85px;
-        object-fit: contain;
-        opacity: 1;
-        pointer-events: none;
-      }
+  position: fixed;
+  top: 0;
+  left: 20%;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  opacity: 1;
+  pointer-events: none;
+  transform: translateY(-140px);
+  will-change: transform, left;
+}
 
-      @keyframes caerLogo {
-        0% {
-          transform: translateY(0) rotate(0deg);
-        }
-        100% {
-          transform: translateY(125vh) rotate(360deg);
-        }
-      }
+@keyframes caerLogo {
+  0% {
+    transform: translateY(-140px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(115vh) rotate(360deg);
+  }
+}
+      
 
       :root {
         --bg-color: #fcfbfa;
@@ -871,35 +875,37 @@ const libros = lines.slice(1).map(line => {
       window.buscarLibros = buscarLibros;
 
       const imagenesLluvia = ['/aliados1.png'];
-      const contenedorLluvia = document.getElementById('lluviaLogos');
+const contenedorLluvia = document.getElementById('lluviaLogos');
 
-      if (contenedorLluvia) {
-        contenedorLluvia.innerHTML = '';
+if (contenedorLluvia) {
+  contenedorLluvia.innerHTML = '';
 
-        const img = document.createElement('img');
-        img.src = imagenesLluvia[0];
-        img.alt = '';
-        img.className = 'logo-cayendo';
-        contenedorLluvia.appendChild(img);
+  const img = document.createElement('img');
+  img.src = imagenesLluvia[0];
+  img.alt = '';
+  img.className = 'logo-cayendo';
+  contenedorLluvia.appendChild(img);
 
-        const lanzarDesdeArriba = () => {
-          const left = 8 + Math.random() * 78;
-          const duracion = 9 + Math.random() * 4;
-          const tamano = 85 + Math.random() * 15;
+  const configurarCaida = () => {
+    const left = 8 + Math.random() * 78;
+    const duracion = 10 + Math.random() * 4;
+    const tamano = 85 + Math.random() * 15;
 
-          img.style.animation = 'none';
-          img.style.left = `${left}%`;
-          img.style.width = `${tamano}px`;
-          img.style.height = `${tamano}px`;
+    img.style.left = `${left}%`;
+    img.style.width = `${tamano}px`;
+    img.style.height = `${tamano}px`;
+    img.style.animation = 'none';
 
-          void img.offsetWidth;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        img.style.animation = `caerLogo ${duracion}s linear 1 forwards`;
+      });
+    });
+  };
 
-          img.style.animation = `caerLogo ${duracion}s linear forwards`;
-        };
-
-        img.addEventListener('animationend', lanzarDesdeArriba);
-        lanzarDesdeArriba();
-      }
+  img.addEventListener('animationend', configurarCaida);
+  configurarCaida();
+}
     </script>
   </body>
 </html>
